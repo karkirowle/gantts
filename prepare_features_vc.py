@@ -17,8 +17,9 @@ import numpy as np
 from nnmnkwii.datasets import FileSourceDataset
 from nnmnkwii import preprocessing as P
 from nnmnkwii.preprocessing.alignment import DTWAligner
-from nnmnkwii.datasets import cmu_arctic, voice_statistics, vcc2016
+from nnmnkwii.datasets import cmu_arctic, voice_statistics, vcc2016, FileSourceDataset
 
+import custom_data_loader 
 import pysptk
 import pyworld
 from scipy.io import wavfile
@@ -34,7 +35,8 @@ from hparams import hparams_debug_string
 # vcc2016.WavFileDataSource and voice_statistics.WavFileDataSource can be
 # drop-in replacement. See below for details:
 # https://r9y9.github.io/nnmnkwii/latest/references/datasets.html#builtin-data-sources
-class MGCSource(cmu_arctic.WavFileDataSource):
+class MGCSource(custom_data_loader.WavFileDataSource):
+#class MGCSource(cmu_arctic.WavFileDataSource):
     def __init__(self, data_root, speakers, max_files=None):
         super(MGCSource, self).__init__(data_root, speakers,
                                         max_files=max_files)
@@ -65,8 +67,11 @@ if __name__ == "__main__":
     args = docopt(__doc__)
     print("Command line args:\n", args)
     DATA_ROOT = args["<DATA_ROOT>"]
+    print(DATA_ROOT)
     source_speaker = args["<source_speaker>"]
     target_speaker = args["<target_speaker>"]
+    print(source_speaker)
+    print(target_speaker)
     max_files = int(args["--max_files"])
     dst_dir = args["--dst_dir"]
     overwrite = args["--overwrite"]
